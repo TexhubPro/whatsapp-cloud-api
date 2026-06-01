@@ -1,0 +1,61 @@
+{
+    "name": "texhub/whatsapp-cloud-api",
+    "description": "Full-featured WhatsApp Cloud API (Business Platform / Graph API) SDK for any PHP framework with first-class Laravel support: send text/media/template/interactive messages, media upload/download, business profile, templates and webhooks.",
+    "type": "library",
+    "keywords": ["php", "laravel", "whatsapp", "whatsapp-cloud-api", "whatsapp-business", "messaging", "webhooks", "meta", "texhub"],
+    "homepage": "https://texhub.pro",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mahmudi Shodmehr",
+            "email": "info@texhub.pro",
+            "homepage": "https://texhub.pro",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://texhub.pro",
+        "docs": "https://developers.facebook.com/docs/whatsapp/cloud-api"
+    },
+    "require": {
+        "php": "^8.2",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-hash": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0 || ^12.0",
+        "illuminate/support": "^11.0 || ^12.0 || ^13.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "TexHub\\WhatsApp\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TexHub\\WhatsApp\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TexHub\\WhatsApp\\Laravel\\WhatsAppServiceProvider"
+            ],
+            "aliases": {
+                "WhatsApp": "TexHub\\WhatsApp\\Laravel\\WhatsApp"
+            }
+        }
+    },
+    "suggest": {
+        "illuminate/support": "Required to use the package inside a Laravel application (service provider, facade, config publishing)."
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
