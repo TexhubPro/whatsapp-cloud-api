@@ -9,6 +9,7 @@ use TexHub\WhatsApp\Http\HttpClient;
 use TexHub\WhatsApp\Http\Transport;
 use TexHub\WhatsApp\Resources\MediaClient;
 use TexHub\WhatsApp\Resources\MessagesClient;
+use TexHub\WhatsApp\Resources\OnboardingClient;
 use TexHub\WhatsApp\Resources\ProfileClient;
 use TexHub\WhatsApp\Resources\TemplatesClient;
 use TexHub\WhatsApp\Responses\Response;
@@ -91,6 +92,15 @@ final class WhatsApp
     public function webhooks(): WebhookHandler
     {
         return $this->resources[WebhookHandler::class] ??= new WebhookHandler($this->config);
+    }
+
+    /**
+     * Multi-tenant onboarding (Embedded Signup) — let your SaaS customers
+     * connect their own WhatsApp accounts.
+     */
+    public function onboarding(): OnboardingClient
+    {
+        return $this->resources[OnboardingClient::class] ??= new OnboardingClient($this->config, $this->transport);
     }
 
     /**

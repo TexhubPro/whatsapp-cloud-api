@@ -13,16 +13,50 @@ final class WebhookEvent
     public const TYPE_STATUS = 'status';
 
     /**
-     * @param array<string, mixed> $data     The message or status payload.
-     * @param array<string, mixed> $contacts Sender contact profiles (for messages).
-     * @param array<string, mixed> $metadata Phone number metadata.
+     * @param array<string, mixed> $data              The message or status payload.
+     * @param array<string, mixed> $contacts          Sender contact profiles (for messages).
+     * @param array<string, mixed> $metadata          Phone number metadata.
+     * @param string|null          $businessAccountId WhatsApp Business Account id (entry.id) — the tenant key.
      */
     public function __construct(
         public readonly string $type,
         public readonly array $data,
         public readonly array $contacts = [],
         public readonly array $metadata = [],
+        public readonly ?string $businessAccountId = null,
     ) {
+    }
+
+    // ---- Multi-tenant routing helpers -------------------------------------
+
+    /**
+     * The phone number id that received this event — the primary key for
+     * routing to the right tenant in a multi-tenant (SaaS) setup.
+     */
+    public function phoneNumberId(): ?string
+    {
+        return isset($this->metadata['phone_number_id']) ? (string) $this->metadata['phone_number_id'] : null;
+    }
+
+    /**
+     * The WhatsApp Business Account id (tenant) this event belongs to.
+     */
+    public function wabaId(): ?string
+    {
+        return $this->businessAccountId;
+    }
+
+    public function displayPhoneNumber(): ?string
+    {
+        return isset($this->metadata['display_phone_number']) ? (string) $this->metadata['display_phone_number'] : null;
+    }
+
+    /**
+     * The sender's WhatsApp profile name (for incoming messages), if provided.
+     */
+    public function contactName(): ?string
+    {
+        return $this->contacts[0]['profile']['name'] ?? null;
     }
 
     public function isMessage(): bool

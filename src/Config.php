@@ -33,6 +33,7 @@ final class Config
         public readonly string $graphUrl = self::DEFAULT_GRAPH_URL,
         public readonly string $version = self::DEFAULT_VERSION,
         public readonly int $timeout = 30,
+        public readonly ?string $appId = null,
     ) {
         if (trim($this->accessToken) === '') {
             throw new ConfigurationException('WhatsApp access token must not be empty.');
@@ -61,6 +62,7 @@ final class Config
             graphUrl: (string) ($config['graph_url'] ?? self::DEFAULT_GRAPH_URL),
             version: (string) ($config['version'] ?? self::DEFAULT_VERSION),
             timeout: (int) ($config['timeout'] ?? 30),
+            appId: self::nullableString($config['app_id'] ?? null),
         );
     }
 
@@ -86,6 +88,15 @@ final class Config
         }
 
         return $this->businessAccountId;
+    }
+
+    public function requireAppId(): string
+    {
+        if ($this->appId === null || trim($this->appId) === '') {
+            throw new ConfigurationException('An app id (app_id) is required for onboarding / Embedded Signup.');
+        }
+
+        return $this->appId;
     }
 
     private static function nullableString(mixed $value): ?string

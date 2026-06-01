@@ -20,9 +20,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | App secret (webhook signature) & webhook verify token
+    | App id & secret (webhook signature + Embedded Signup onboarding)
     |--------------------------------------------------------------------------
+    |
+    | app_id is required only for multi-tenant onboarding (Embedded Signup).
+    |
     */
+    'app_id' => env('WHATSAPP_APP_ID'),
     'app_secret' => env('WHATSAPP_APP_SECRET'),
     'webhook_verify_token' => env('WHATSAPP_WEBHOOK_VERIFY_TOKEN'),
 

@@ -192,6 +192,30 @@ WhatsApp::messages()->buttons('992900123456', 'Выбор:', [/* ... */]);
 
 ---
 
+## 🏢 Multi-tenant / SaaS
+
+Создан для SaaS, где много клиентов подключают **свои** WhatsApp. Одно приложение Meta, один webhook-URL, изоляция данных по арендатору.
+
+```php
+// 1) Онбординг клиента через Embedded Signup (фронт возвращает `code`):
+$wa = WhatsApp::fromArray(['access_token' => '...', 'phone_number_id' => '...', 'app_id' => '...', 'app_secret' => '...']);
+$token = $wa->onboarding()->exchangeCode($code)->get('access_token'); // бизнес-токен клиента
+$wa->onboarding()->subscribeApp($wabaId, $token);                      // направить его вебхуки к вам
+$wa->onboarding()->registerPhone($phoneNumberId, '123456', $token);    // 6-значный PIN
+// → сохраните {token, waba_id, phone_number_id} для этого арендатора
+
+// 2) Отправка от любого арендатора — клиент с его сохранёнными кредами:
+WhatsApp::fromArray($tenant->whatsappConfig())->sendText($to, $text);
+
+// 3) Один вебхук на всех — роутинг по номеру / WABA id:
+foreach ($wa->webhooks()->parse($raw) as $event) {
+    $tenant = Tenant::where('wa_phone_number_id', $event->phoneNumberId())->first();
+    //      или ->where('wa_business_account_id', $event->wabaId())
+}
+```
+
+`$event->phoneNumberId()`, `->wabaId()`, `->displayPhoneNumber()`, `->contactName()` дают всё нужное для маршрутизации события нужному клиенту. Подпись вебхука проверяется одним общим app secret.
+
 ## 🧪 Тестирование
 
 ```php

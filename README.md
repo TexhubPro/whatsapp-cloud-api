@@ -176,6 +176,7 @@ php artisan vendor:publish --tag=whatsapp-config
 WHATSAPP_ACCESS_TOKEN=...
 WHATSAPP_PHONE_NUMBER_ID=...
 WHATSAPP_BUSINESS_ACCOUNT_ID=...
+WHATSAPP_APP_ID=...
 WHATSAPP_APP_SECRET=...
 WHATSAPP_WEBHOOK_VERIFY_TOKEN=...
 WHATSAPP_API_VERSION=v23.0
@@ -191,6 +192,30 @@ WhatsApp::messages()->buttons('992900123456', 'Выбор:', [/* ... */]);
 ```
 
 ---
+
+## 🏢 Multi-tenant / SaaS
+
+Built for SaaS where many customers connect **their own** WhatsApp. One Meta app, one webhook URL, isolated per-tenant data.
+
+```php
+// 1) Customer onboarding via Embedded Signup (front-end returns a `code`):
+$wa = WhatsApp::fromArray(['access_token' => '...', 'phone_number_id' => '...', 'app_id' => '...', 'app_secret' => '...']);
+$token = $wa->onboarding()->exchangeCode($code)->get('access_token'); // customer business token
+$wa->onboarding()->subscribeApp($wabaId, $token);                      // route their webhooks to you
+$wa->onboarding()->registerPhone($phoneNumberId, '123456', $token);    // 6-digit PIN
+// → store {token, waba_id, phone_number_id} for this tenant
+
+// 2) Send as any tenant — build a client with their stored creds:
+WhatsApp::fromArray($tenant->whatsappConfig())->sendText($to, $text);
+
+// 3) One webhook for everyone — route by phone number / WABA id:
+foreach ($wa->webhooks()->parse($raw) as $event) {
+    $tenant = Tenant::where('wa_phone_number_id', $event->phoneNumberId())->first();
+    //      or ->where('wa_business_account_id', $event->wabaId())
+}
+```
+
+`$event->phoneNumberId()`, `->wabaId()`, `->displayPhoneNumber()`, `->contactName()` give you everything needed to route to the right customer. Webhook signatures are verified with your single app secret.
 
 ## 🧪 Testing
 

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \TexHub\WhatsApp\Resources\MediaClient      media()
  * @method static \TexHub\WhatsApp\Resources\ProfileClient    profile()
  * @method static \TexHub\WhatsApp\Resources\TemplatesClient  templates()
+ * @method static \TexHub\WhatsApp\Resources\OnboardingClient onboarding()
  * @method static \TexHub\WhatsApp\Webhook\WebhookHandler     webhooks()
  * @method static \TexHub\WhatsApp\Responses\Response          sendText(string $to, string $body)
  * @method static \TexHub\WhatsApp\Http\HttpClient            http()

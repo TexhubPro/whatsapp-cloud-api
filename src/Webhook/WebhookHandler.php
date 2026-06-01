@@ -85,6 +85,8 @@ final class WebhookHandler
         $events = [];
 
         foreach (($payload['entry'] ?? []) as $entry) {
+            $wabaId = isset($entry['id']) ? (string) $entry['id'] : null;
+
             foreach (($entry['changes'] ?? []) as $change) {
                 if (! is_array($change) || ($change['field'] ?? null) !== 'messages') {
                     continue;
@@ -96,13 +98,13 @@ final class WebhookHandler
 
                 foreach (($value['messages'] ?? []) as $message) {
                     if (is_array($message)) {
-                        $events[] = new WebhookEvent(WebhookEvent::TYPE_MESSAGE, $message, $contacts, $metadata);
+                        $events[] = new WebhookEvent(WebhookEvent::TYPE_MESSAGE, $message, $contacts, $metadata, $wabaId);
                     }
                 }
 
                 foreach (($value['statuses'] ?? []) as $status) {
                     if (is_array($status)) {
-                        $events[] = new WebhookEvent(WebhookEvent::TYPE_STATUS, $status, [], $metadata);
+                        $events[] = new WebhookEvent(WebhookEvent::TYPE_STATUS, $status, [], $metadata, $wabaId);
                     }
                 }
             }
