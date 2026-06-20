@@ -1,6 +1,6 @@
 # TexHub · WhatsApp Cloud API
 
-**🌐 English** · [Русский](README.ru.md)
+**English** · [Русский](README.ru.md)
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PHP](https://img.shields.io/badge/php-%5E8.2-777bb4.svg)](composer.json)
@@ -12,7 +12,7 @@ Reference: <https://developers.facebook.com/docs/whatsapp/cloud-api>
 
 ---
 
-## ✨ What's covered
+## What's covered
 
 | Area | Methods |
 |------|---------|
@@ -25,7 +25,7 @@ Reference: <https://developers.facebook.com/docs/whatsapp/cloud-api>
 
 ---
 
-## 📦 Installation
+## Installation
 
 ```bash
 composer require texhub/whatsapp-cloud-api
@@ -35,7 +35,7 @@ Requirements: **PHP ≥ 8.2** with `curl`, `json`, `hash`.
 
 ---
 
-## 🚀 Quick start
+## Quick start
 
 ```php
 use TexHub\WhatsApp\WhatsApp;
@@ -53,7 +53,7 @@ $wa->sendText('992900123456', 'Привет из TexHub! 👋');
 
 ---
 
-## 💬 Messages
+## Messages
 
 ```php
 use TexHub\WhatsApp\Builders\Button;
@@ -87,7 +87,7 @@ $wa->messages()->markRead('wamid.INCOMING');
 
 ---
 
-## 📎 Media
+## Media
 
 ```php
 $id = $wa->media()->upload('/path/image.jpg')->id();   // upload, get a media id
@@ -98,7 +98,7 @@ $bytes = $wa->media()->download($mediaId);              // raw binary
 $wa->media()->delete($mediaId);
 ```
 
-## 🪪 Profile & templates
+## Profile & templates
 
 ```php
 $wa->profile()->get();
@@ -110,7 +110,7 @@ $wa->templates()->list();            // needs businessAccountId
 
 ---
 
-## 🔔 Webhooks
+## Webhooks
 
 **Verification (GET)** — echo the challenge:
 
@@ -146,7 +146,7 @@ http_response_code(200);
 
 ---
 
-## 🧯 Error handling
+## Error handling
 
 ```php
 use TexHub\WhatsApp\Exceptions\ApiException;
@@ -162,7 +162,7 @@ try {
 
 ---
 
-## <a name="laravel"></a>🧩 Laravel
+## <a name="laravel"></a> Laravel
 
 Auto-discovered. Publish config:
 
@@ -193,7 +193,7 @@ WhatsApp::messages()->buttons('992900123456', 'Выбор:', [/* ... */]);
 
 ---
 
-## 🏢 Multi-tenant / SaaS
+## Multi-tenant / SaaS
 
 Built for SaaS where many customers connect **their own** WhatsApp. One Meta app, one webhook URL, isolated per-tenant data.
 
@@ -217,7 +217,7 @@ foreach ($wa->webhooks()->parse($raw) as $event) {
 
 `$event->phoneNumberId()`, `->wabaId()`, `->displayPhoneNumber()`, `->contactName()` give you everything needed to route to the right customer. Webhook signatures are verified with your single app secret.
 
-## 🧪 Testing
+## Testing
 
 ```php
 use TexHub\WhatsApp\WhatsApp;
@@ -235,7 +235,7 @@ composer install && composer test
 
 ---
 
-## 📚 Architecture
+## Architecture
 
 ```
 src/

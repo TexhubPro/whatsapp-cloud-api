@@ -1,6 +1,6 @@
 # TexHub · WhatsApp Cloud API
 
-[English](README.md) · **🌐 Русский**
+[English](README.md) · **Русский**
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PHP](https://img.shields.io/badge/php-%5E8.2-777bb4.svg)](composer.json)
@@ -12,7 +12,7 @@
 
 ---
 
-## ✨ Что покрыто
+## Что покрыто
 
 | Раздел | Методы |
 |------|---------|
@@ -25,7 +25,7 @@
 
 ---
 
-## 📦 Установка
+## Установка
 
 ```bash
 composer require texhub/whatsapp-cloud-api
@@ -35,7 +35,7 @@ composer require texhub/whatsapp-cloud-api
 
 ---
 
-## 🚀 Быстрый старт
+## Быстрый старт
 
 ```php
 use TexHub\WhatsApp\WhatsApp;
@@ -53,7 +53,7 @@ $wa->sendText('992900123456', 'Привет из TexHub! 👋');
 
 ---
 
-## 💬 Сообщения
+## Сообщения
 
 ```php
 use TexHub\WhatsApp\Builders\Button;
@@ -87,7 +87,7 @@ $wa->messages()->markRead('wamid.INCOMING');
 
 ---
 
-## 📎 Медиа
+## Медиа
 
 ```php
 $id = $wa->media()->upload('/path/image.jpg')->id();   // загрузить, получить media id
@@ -98,7 +98,7 @@ $bytes = $wa->media()->download($mediaId);              // сырые байты
 $wa->media()->delete($mediaId);
 ```
 
-## 🪪 Профиль и шаблоны
+## Профиль и шаблоны
 
 ```php
 $wa->profile()->get();
@@ -110,7 +110,7 @@ $wa->templates()->list();            // нужен businessAccountId
 
 ---
 
-## 🔔 Вебхуки
+## Вебхуки
 
 **Проверка (GET)** — вернуть challenge:
 
@@ -146,7 +146,7 @@ http_response_code(200);
 
 ---
 
-## 🧯 Обработка ошибок
+## Обработка ошибок
 
 ```php
 use TexHub\WhatsApp\Exceptions\ApiException;
@@ -162,7 +162,7 @@ try {
 
 ---
 
-## <a name="laravel"></a>🧩 Laravel
+## <a name="laravel"></a> Laravel
 
 Регистрируется автоматически. Опубликуйте конфиг:
 
@@ -192,7 +192,7 @@ WhatsApp::messages()->buttons('992900123456', 'Выбор:', [/* ... */]);
 
 ---
 
-## 🏢 Multi-tenant / SaaS
+## Multi-tenant / SaaS
 
 Создан для SaaS, где много клиентов подключают **свои** WhatsApp. Одно приложение Meta, один webhook-URL, изоляция данных по арендатору.
 
@@ -216,7 +216,7 @@ foreach ($wa->webhooks()->parse($raw) as $event) {
 
 `$event->phoneNumberId()`, `->wabaId()`, `->displayPhoneNumber()`, `->contactName()` дают всё нужное для маршрутизации события нужному клиенту. Подпись вебхука проверяется одним общим app secret.
 
-## 🧪 Тестирование
+## Тестирование
 
 ```php
 use TexHub\WhatsApp\WhatsApp;
@@ -234,7 +234,7 @@ composer install && composer test
 
 ---
 
-## 📚 Архитектура
+## Архитектура
 
 ```
 src/
